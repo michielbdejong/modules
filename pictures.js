@@ -6,24 +6,11 @@
 // unless it starts with a dollar sign ($)
 //
 
-remoteStorage.defineModule('pictures', function(privateClient, publicClient) {
+RemoteStorage.defineModule('pictures', function(privateClient, publicClient) {
 
   var isDir = remoteStorage.util.isDir;
 
-  // Albums only work, when the user is connected and online.
-  var Album = function(name, client) {
-    this.name = name;
-    this.client = client;
-    this.prefix = encodeURIComponent(this.name) + '/';
-
-    // Sync all picture names, but not the pictures themselves.
-    // this.client.use(this.prefix, true);
-
-    // Bind all the things
-    remoteStorage.util.bindAll(this);
-  };
-
-  Album.prototype = {
+  AlbumMethods = {
 
     // Store image with given MIME type under the given name.
     // The given `data` is expected to be an `ArrayBuffer`.
@@ -32,24 +19,14 @@ remoteStorage.defineModule('pictures', function(privateClient, publicClient) {
     // absolute URL of the newly uploaded picture.
     // See `getPictureURL` for details.
     store: function(mimeType, fileName, data) {
-      return this.client.storeFile(
-        mimeType,
-        this._path(fileName),
-        data,
-        false // skip the cache
-      ).then(function() {
+      return this.storeFile(mimeType, fileName, data).then(function() {
         return this.getPictureURL(fileName);
       }.bind(this));
     },
 
-    remove: function(fileName) {
-      return this.client.remove(this._path(fileName));
-    },
-
     // Get a list of all pictures in this album.
     list: function() {
-      return this.client.getListing(this.prefix).
-        then(function(listing) {
+      return this.getListing('').then(function(listing) {
           return listing.map(decodeURIComponent);
         });
     },
@@ -58,15 +35,16 @@ remoteStorage.defineModule('pictures', function(privateClient, publicClient) {
     // Useful for displaying a public picture using the `src` attribute
     // of an `<img>` element.
     getPictureURL: function(fileName) {
-      return this.client.getItemURL(this._path(fileName));
+      return this.getItemURL(fileName);
+    },
+
+    open: function() {
+      this.cache('');
     },
 
     close: function() {
-      this.client.release(this.prefix);
-    },
-
-    _path: function(fileName) {
-      return this.prefix + encodeURIComponent(fileName);
+      this.cache('', false);
+      return this;
     }
 
   };
@@ -93,7 +71,7 @@ remoteStorage.defineModule('pictures', function(privateClient, publicClient) {
     // Open album with given `name`. This will sync the list of images
     // and make them accessible via the returned `Album` object.
     openPublicAlbum: function(name) {
-      return new Album(name, publicClient);
+      return publicClient.scope(name + '/').extend(albumMethods).open();
     },
 
     listPublicAlbums: function() {
@@ -101,7 +79,7 @@ remoteStorage.defineModule('pictures', function(privateClient, publicClient) {
     },
 
     openPrivateAlbum: function(name) {
-      return new Album(name, privateClient);
+      return privateClient.scope(name, '/').extend(albumMethods).open();
     },
 
     listPrivateAlbums: function() {
