@@ -1,4 +1,4 @@
-RemoteStorage.defineModule('email-credentials', function(privClient, pubClient) {
+RemoteStorage.defineModule('email', function(privClient, pubClient) {
   if(!CredentialsStore) {
     throw new Error('please include utils/credentialsstore.js');
   }
@@ -47,6 +47,6 @@ RemoteStorage.defineModule('email-credentials', function(privClient, pubClient) 
     required: ['actor', 'object']
   });
   return {
-    exports: CredentialsStore('email', privClient)
+    exports: new CredentialsStore('email', privClient)
   };
 });

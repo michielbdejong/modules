@@ -1,4 +1,5 @@
 require('./test/dependencies');
+require('./src/utils/credentialsstore');
 require('./src/email-credentials');
 define(['require'], function(require) {
   var suites = [];
@@ -34,7 +35,7 @@ define(['require'], function(require) {
         tls: 'uhh'
       };
       remoteStorage.caching.enable('/');
-      env.email = remoteStorage.emailCredentials;
+      env.email = remoteStorage.email;
       test.done();
     },
     tests: [
@@ -43,7 +44,7 @@ define(['require'], function(require) {
         desc: "set BAD config.json",
         willFail: true,
         run: function (env, test) {
-          env.email.writeConfig(env.configBad).then(test.done, function () {
+          env.email.setConfig(undefined, env.configBad).then(test.done, function () {
             test.result(false);
           });
         }
@@ -52,7 +53,7 @@ define(['require'], function(require) {
       {
         desc: "set config.json",
         run: function (env, test) {
-          env.email.writeConfig(env.config).then(test.done, function () {
+          env.email.setConfig(undefined, env.config).then(test.done, function () {
             test.result(false);
           });
         }
@@ -62,6 +63,7 @@ define(['require'], function(require) {
         desc: "get config.json",
         run: function (env, test) {
           env.email.getConfig().then(function (d) {
+            delete env.config['@context'];
             test.assert(d, env.config);
           }, function () {
             test.result(false);
