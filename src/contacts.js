@@ -1,3 +1,7 @@
+/**
+ * File: Contacts
+ *
+ */
 if(! RemoteStorage) {
   RemoteStorage = remoteStorage;
 }
@@ -31,7 +35,7 @@ RemoteStorage.defineModule('contacts', function (privateClient, publicClient) {
   }
 
   /**
-   * Schema: http://json-schema.org/draft-03/schema#
+   * Schema: contacts/contact
    *
    * Contact
    *

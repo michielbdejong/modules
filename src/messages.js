@@ -50,7 +50,7 @@ RemoteStorage.defineModule('messages', function (privateClient, publicClient) {
    */
 
   /**
-   * Schema: message.recipient
+   * Schema: messages/recipient
    *
    * Represents a recipient of a message.
    *
@@ -60,7 +60,7 @@ RemoteStorage.defineModule('messages', function (privateClient, publicClient) {
    */
 
   /**
-   * Schema: message.draft
+   * Schema: messages/draft
    *
    * Represents a saved message that hasn't been sent yet.
    *
@@ -195,7 +195,7 @@ RemoteStorage.defineModule('messages', function (privateClient, publicClient) {
 
 
   /**
-   * Schema: message
+   * Schema: messages/message
    *
    * Represents a received or sent message.
    *
@@ -213,7 +213,7 @@ RemoteStorage.defineModule('messages', function (privateClient, publicClient) {
   });
 
   /**
-   * Schema: account
+   * Schema: messages/account
    *
    * Represents an account's basic metadata.
    *
@@ -239,7 +239,7 @@ RemoteStorage.defineModule('messages', function (privateClient, publicClient) {
 
 
   /**
-   * Schema: account.xmpp-credentials
+   * Schema: messages/xmpp-credentials
    *
    * Credentials for an XMPP connection.
    *
