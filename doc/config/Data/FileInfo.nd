@@ -8,7 +8,7 @@ JavaScript
 /root/modules/src/utils/syncedmap.js	1400576669	1	SyncedMap
 /root/modules/src/facebook-credentials.js	1400576669	0	/root/modules/src/facebook-credentials.js
 /root/modules/src/twitter-credentials.js	1400576663	0	/root/modules/src/twitter-credentials.js
-/root/modules/src/contacts.js	1400530200	0	/root/modules/src/contacts.js
+/root/modules/src/contacts.js	1400578160	1	http://json-schema.org/draft-03/schema#
 /root/modules/src/irc-credentials.js	1400576669	0	/root/modules/src/irc-credentials.js
 /root/modules/src/documents.js	1400576669	1	Documents
 /root/modules/src/pgp.js	1400508040	1	PGP
