@@ -50,7 +50,7 @@ RemoteStorage.defineModule('messages', function (privateClient, publicClient) {
    */
 
   /**
-   * Schema: messages/recipient
+   * Schema: email.recipient
    *
    * Represents a recipient of a message.
    *
@@ -212,18 +212,6 @@ RemoteStorage.defineModule('messages', function (privateClient, publicClient) {
     //required: ['target', 'object.subject', 'object.body', 'object.date']
   });
 
-  /**
-   * Schema: messages/account
-   *
-   * Represents an account's basic metadata.
-   *
-   * Properties:
-   *   name    - The account owner's name.
-   *             This name is used as the sender name for outgoing messages.
-   *   address - The address associated with this account.
-   *             Will be used as the sender address for outgoing messages.
-   *
-   */
   var actorTemplate = {
     properties: {
       actor: {
@@ -244,6 +232,11 @@ RemoteStorage.defineModule('messages', function (privateClient, publicClient) {
    * Credentials for an XMPP connection.
    *
    * Properties:
+   *   actor   - object:
+   *     name    - The account owner's name.
+   *               This name is used as the sender name for outgoing messages.
+   *     address - The address associated with this account.
+   *               Will be used as the sender address for outgoing messages.
    *   username - Username to authenticate against XMPP server.
    *   password - Password to authenticate against XMPP server.
    *   server     - Hostname of the XMPP server.
